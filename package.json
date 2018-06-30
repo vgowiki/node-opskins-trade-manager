@@ -1,0 +1,40 @@
+{
+  "name": "opskins-trade-manager",
+  "version": "1.0.0",
+  "description": "Easy to use trade.opskins.com trade bot written using NodeJS",
+  "main": "index.js",
+  "directories": {
+    "example": "examples"
+  },
+  "scripts": {
+    "test": "mocha --exit"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/feed4rz/node-opskins-trade-manager.git"
+  },
+  "keywords": [
+    "opskins",
+    "trade",
+    "api",
+    "manager",
+    "expresstrade",
+    "wax",
+    "vgo"
+  ],
+  "author": "feed4rz",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/feed4rz/node-opskins-trade-manager/issues"
+  },
+  "homepage": "https://github.com/feed4rz/node-opskins-trade-manager#readme",
+  "dependencies": {
+    "events": "^3.0.0",
+    "opskins-2fa": "^1.0.1",
+    "opskins-trade-interface": "^1.2.2"
+  },
+  "devDependencies": {
+    "chai": "^4.1.2",
+    "mocha": "^5.2.0"
+  }
+}
