@@ -127,7 +127,7 @@ async function sendOffer(done) {
 }
 
 async function cancelOffer(done) {
-  manager1.once('offer_update', async(update, old_state) => {
+  manager1.once('offer_update_sent', async(update, old_state) => {
     expect(update instanceof Offer).to.equal(true)
     expect(update.id).to.equal(remoffer.id)
     expect(update.state).to.equal(7)

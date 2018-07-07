@@ -43,8 +43,8 @@ class Manager extends EventEmitter {
           const offer = new Offer(this, offers[i])
 
           this.emit('offer_new', offer)
-          if(offers[i].type == 'received') this.emit('offer_new_received', offer)
-          if(offers[i].type == 'sent') this.emit('offer_new_sent', offer)
+          if(!offers[i].sent_by_you) this.emit('offer_new_received', offer)
+          if(offers[i].sent_by_you) this.emit('offer_new_sent', offer)
 
           continue
         }
@@ -53,8 +53,8 @@ class Manager extends EventEmitter {
           const offer = new Offer(this, offers[i])
 
           this.emit('offer_update', offer, this.offers[offers[i].id])
-          if(offers[i].type == 'received') this.emit('offer_update_received', offer, this.offers[offers[i].id])
-          if(offers[i].type == 'sent') this.emit('offer_update_sent', offer, this.offers[offers[i].id])
+          if(!offers[i].sent_by_you) this.emit('offer_update_received', offer, this.offers[offers[i].id])
+          if(offers[i].sent_by_you) this.emit('offer_update_sent', offer, this.offers[offers[i].id])
 
           this.offers[offers[i].id] = offers[i].state
         }
