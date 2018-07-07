@@ -62,7 +62,8 @@ class Manager extends EventEmitter {
 
       setTimeout(() => { this._poll() }, this.poll_interval)
     } catch(err) {
-      console.error('Polling error:', err)
+      console.error('Polling error:')
+      console.error(err)
 
       setTimeout(() => { this._poll() }, this.poll_interval)
     }
