@@ -169,7 +169,7 @@ class ITrade {
     items = items instanceof Item ? items.id.toString() : (Array.isArray(items) ? this._convertItems(items) : items.toString())
     twofactor_code = twofactor_code ? twofactor_code : this.manager.op2fa.code()
 
-    const params = { steam_id, items, twofactor_code }
+    params = { steam_id, items, twofactor_code }
 
     const res = await this.ITrade.SendOfferToSteamId(params)
 
