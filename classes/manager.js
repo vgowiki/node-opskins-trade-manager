@@ -14,14 +14,14 @@ const IItem = require('./IItem.js')
 const IUser = require('./IUser.js')
 
 class Manager extends EventEmitter {
-  constructor(apikey, twofactor_secret = null, polling = true, poll_interval = 1000) {
+  constructor({ api_key, tfa_secret, need_polling, polling_interval }) {
   	super()
-    this.api = new tradeinterface(apikey)
+    this.api = new tradeinterface(api_key)
 
-    if(twofactor_secret) this.op2fa = new op2fa(twofactor_secret)
+    if(tfa_secret) this.op2fa = new op2fa(tfa_secret)
 
-    this.poll_interval = poll_interval
-    this.polling = polling
+    this.poll_interval = (polling_interval) ? polling_interval : 1000
+    this.polling = (need_polling) ? need_polling : true
     this.offers = {}
 
     if(this.polling) this._poll()
