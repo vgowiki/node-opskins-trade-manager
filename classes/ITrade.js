@@ -139,17 +139,20 @@ class ITrade {
   }
 
   async SendOffer(params = {}) {
-    if(!params.tradeurl) throw new Missing('tradeurl')
-    if(!params.tradeurl.match(/^((https:\/\/trade\.opskins\.com\/t\/([0-9]{1,})\/([a-zA-Z0-9]{8}))|(https:\/\/trade\.opskins\.com\/trade\/userid\/([0-9]{1,})\/token\/([a-zA-Z0-9]{8})))$/)) {
+    if(params.tradeurl && !params.tradeurl.match(/^((https:\/\/trade\.opskins\.com\/t\/([0-9]{1,})\/([a-zA-Z0-9]{8}))|(https:\/\/trade\.opskins\.com\/trade\/userid\/([0-9]{1,})\/token\/([a-zA-Z0-9]{8})))$/)) {
       throw new Invalid('tradeurl')
     }
+    if(params.tradeurl) {
+      const tradeurl = params.tradeurl.replace('https://trade.opskins.com/t/', '').replace('https://trade.opskins.com/trade/userid/', '').replace('token/', '').split('/')
+      params.uid = tradeurl[0]
+      params.token = tradeurl[1]
+    }
+    if(!params.uid) throw new Missing('uid')
+    if(!params.token) throw new Missing('token')
     if(!params.items) throw new Missing('items')
 
-    let { tradeurl, items, twofactor_code, message = '' } = params
+    let { uid, token, items, twofactor_code, message = '' } = params
 
-    tradeurl = tradeurl.replace('https://trade.opskins.com/t/', '').replace('https://trade.opskins.com/trade/userid/', '').replace('token/', '').split('/')
-    const uid = tradeurl[0]
-    const token = tradeurl[1]
     items = items instanceof Item ? items.id.toString() : (Array.isArray(items) ? this._convertItems(items) : items.toString())
     twofactor_code = twofactor_code ? twofactor_code : this.manager.op2fa.code()
 
