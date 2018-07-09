@@ -21,7 +21,6 @@ let item = null
 let display_name = 'feed4rz' + Math.floor(Math.random() * 100000000)
 let remembered_name = ''
 let tradeurl = ''
-let tradeurl2 = ''
 let message = Math.floor(Math.random() * 100000000).toString()
 let remoffer = null
 let sendoffer = 0
@@ -63,36 +62,15 @@ describe('ITrade', async() => {
 
     tradeurl = res.short_url
 
-    const res2 = await manager1.ITrade.GetTradeURL()
-
-    tradeurl2 = res2.short_url
-
     expect(tradeurl.match(/^((https:\/\/trade\.opskins\.com\/t\/([0-9]{1,})\/([a-zA-Z0-9]{8}))|(https:\/\/trade\.opskins\.com\/trade\/userid\/([0-9]{1,})\/token\/([a-zA-Z0-9]{8})))$/)[0]).to.equal(tradeurl)
-    expect(tradeurl2.match(/^((https:\/\/trade\.opskins\.com\/t\/([0-9]{1,})\/([a-zA-Z0-9]{8}))|(https:\/\/trade\.opskins\.com\/trade\/userid\/([0-9]{1,})\/token\/([a-zA-Z0-9]{8})))$/)[0]).to.equal(tradeurl2)
   })
-  it('SendOffer out', done => {
+  it('SendOffer', done => {
     sendOffer(done)
   }).timeout(5000)
   it('Offer.cancel', done => {
     cancelOffer(done)
   }).timeout(5000)
-  it('SendOffer in', done => {
-    sendOfferIn(done)
-  }).timeout(5000)
 })
-
-async function sendOfferIn(done) {
-  const items = item
-  const splitted = tradeurl2.replace('https://trade.opskins.com/t/', '').replace('https://trade.opskins.com/trade/userid/', '').replace('token/', '').split('/')
-  const uid = splitted[0]
-  const token = splitted[1]
-  const offer = await manager2.ITrade.SendOffer({ uid, token, items, message, SKIP2FA: true })
-
-  const canceled = await offer.cancel()
-  expect(canceled.state).to.equal(6)
-
-  done()
-}
 
 async function sendOffer(done) {
   const items = item
