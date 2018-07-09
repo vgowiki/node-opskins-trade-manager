@@ -1,6 +1,6 @@
 {
   "name": "opskins-trade-manager",
-  "version": "1.1.1",
+  "version": "1.1.2",
   "description": "Easy to use trade.opskins.com trade bot written using NodeJS",
   "main": "index.js",
   "directories": {
