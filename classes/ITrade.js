@@ -158,6 +158,8 @@ class ITrade {
 
     params = { uid, token, items, twofactor_code, message }
 
+    if(params.SKIP2FA) delete params.twofactor_code
+
     const res = await this.ITrade.SendOffer(params)
 
     return new Offer(this.manager, res.response.offer)
@@ -173,6 +175,8 @@ class ITrade {
     twofactor_code = twofactor_code ? twofactor_code : this.manager.op2fa.code()
 
     params = { steam_id, items, twofactor_code }
+
+    if(params.SKIP2FA) delete params.twofactor_code
 
     const res = await this.ITrade.SendOfferToSteamId(params)
 
