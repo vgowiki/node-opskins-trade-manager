@@ -21,6 +21,7 @@ class Manager extends EventEmitter {
     if(twofactor_secret) this.op2fa = new op2fa(twofactor_secret)
 
     this.poll_interval = poll_interval
+    this.poll_timeout = 0
     this.polling = polling
     this.offers = {}
 
@@ -31,7 +32,27 @@ class Manager extends EventEmitter {
     this.IItem = new IItem(this)
   }
 
+  enablePolling() {
+    if(this.polling) return false
+
+    this.polling = true
+    this._poll()
+
+    return true
+  }
+
+  disablePolling() {
+    if(!this.polling) return false
+
+    this.polling = false
+    clearTimeout(this.poll_timeout)
+
+    return true
+  }
+
   async _poll() {
+    if(!this.polling) return
+
     try {
       const res = await this.api.ITrade.GetOffers()
       const { offers } = res.response
@@ -60,12 +81,12 @@ class Manager extends EventEmitter {
         }
       }
 
-      setTimeout(() => { this._poll() }, this.poll_interval)
+      this.poll_timeout = setTimeout(() => { this._poll() }, this.poll_interval)
     } catch(err) {
       console.error('Polling error:')
       console.error(err)
 
-      setTimeout(() => { this._poll() }, this.poll_interval)
+      this.poll_timeout = setTimeout(() => { this._poll() }, this.poll_interval)
     }
   }
 }
