@@ -89,7 +89,7 @@ async function sendOfferIn(done) {
   const offer = await manager2.ITrade.SendOffer({ uid, token, items, message, SKIP2FA: true })
 
   const canceled = await offer.cancel()
-  console.log(canceled)
+  expect(canceled.state).to.equal(6)
 
   done()
 }
