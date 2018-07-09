@@ -7,8 +7,14 @@ const User = require('../classes/user.js')
 const Offer = require('../classes/offer.js')
 
 /* Managers */
-const manager1 = new OpskinsManager(process.env.apikey1, process.env.secret1)
-const manager2 = new OpskinsManager(process.env.apikey2, process.env.secret2)
+const manager1 = new OpskinsManager({
+  apikey: process.env.apikey1,
+  secret: process.env.secret1
+})
+const manager2 = new OpskinsManager({
+  apikey: process.env.apikey2,
+  secret: process.env.secret2
+})
 
 /* Variables */
 let item = null
