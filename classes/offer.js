@@ -53,7 +53,7 @@ class Offer {
   }
 
   async get() {
-    const res = await this.manager.api.ITrade.GetOffer({ offer_id: this.id })
+    const res = await (this.manager.replaced_methods ? this.manager.ITrade.GetOffer({ offer_id: this.id }) : this.manager.api.ITrade.GetOffer({ offer_id: this.id }))
 
     this._setProp(res.response.offer)
 
@@ -66,7 +66,7 @@ class Offer {
     if(!params.twofactor_code) params.twofactor_code = this.manager.op2fa.code()
     params.offer_id = this.id
 
-    const res = await this.manager.api.ITrade.AcceptOffer(params)
+    const res = await (this.manager.replaced_methods ? this.manager.ITrade.AcceptOffer(params) : this.manager.api.ITrade.AcceptOffer(params))
 
     this._setProp(res.response.offer)
 
@@ -81,11 +81,17 @@ class Offer {
   async cancel() {
   	if(this.state != 2) throw new AccessDenied('you cant cancel unactive offer')
   		
-    const res = await this.manager.api.ITrade.CancelOffer({ offer_id: this.id })
+    const res = await (this.manager.replaced_methods ? this.manager.ITrade.CancelOffer({ offer_id: this.id }) : this.manager.api.ITrade.CancelOffer({ offer_id: this.id }))
 
     this._setProp(res.response.offer)
 
     return this
+  }
+
+  toJSON() {
+    const object = { ...this }
+    delete object.manager
+    return object
   }
 
   /* In development

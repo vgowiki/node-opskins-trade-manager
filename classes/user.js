@@ -20,12 +20,12 @@ class User {
 
 	async getNameAndAvatar() {
 		if(this.uid) {
-			const res = await this.manager.api.ITrade.GetUserInventory({ app_id: 1, uid: this.uid })
+			const res = await (this.manager.replaced_methods ? this.manager.ITrade.GetUserInventory({ app_id: 1, uid: this.uid }) : this.manager.api.ITrade.GetUserInventory({ app_id: 1, uid: this.uid }))
 
 			this.avatar = res.response.user_data.avatar
 			this.display_name = res.response.user_data.display_name
 		} else if(this.steam_id) {
-			const res = await this.manager.api.ITrade.GetUserInventoryFromSteamId({ app_id: 1, steam_id: this.steam_id })
+			const res = await (this.manager.replaced_methods ? this.manager.ITrade.GetUserInventoryFromSteamId({ app_id: 1, steam_id: this.steam_id }) : this.manager.api.ITrade.GetUserInventoryFromSteamId({ app_id: 1, steam_id: this.steam_id }))
 
 			this.avatar = res.response.user_data.avatar
 			this.display_name = res.response.user_data.display_name
@@ -40,7 +40,7 @@ class User {
 		if(this.uid) {
 			params.uid = this.uid
 
-			const res = await this.manager.api.ITrade.GetUserInventory(params)
+			const res = await (this.manager.replaced_methods ? this.manager.ITrade.GetUserInventory(params) : this.manager.api.ITrade.GetUserInventory(params))
 
 			for(let i = 0; i < res.response.items.length; i++) {
 	  		res.response.items[i] = new Item(this.manager, res.response.items[i])
@@ -54,7 +54,7 @@ class User {
 		} else if(this.steam_id) {
 			params.steam_id = this.steam_id
 
-			const res = await this.manager.api.ITrade.GetUserInventoryFromSteamId(params)
+			const res = await (this.manager.replaced_methods ? this.manager.ITrade.GetUserInventoryFromSteamId(params) : this.manager.api.ITrade.GetUserInventoryFromSteamId(params))
 
 			for(let i = 0; i < res.response.items.length; i++) {
 	  		res.response.items[i] = new Item(this.manager, res.response.items[i])
@@ -73,7 +73,7 @@ class User {
 	async getProfile(params = {}) {
 		if(!this.is_our_profile) throw new AccessDenied('you cant get profile that is not yours')
 
-		const res = await this.manager.api.IUser.GetProfile(params)
+		const res = await (this.manager.replaced_methods ? this.manager.IUser.GetProfile(params) : this.manager.api.IUser.GetProfile(params))
 
 		this._setProp(res.response.user)
 
@@ -83,12 +83,18 @@ class User {
 	async updateProfile(params = {}) {
 		if(!this.is_our_profile) throw new AccessDenied('you cant update profile that is not yours')
 
-		const res = await this.manager.api.IUser.UpdateProfile(params)
+		const res = await (this.manager.replaced_methods ? this.manager.IUser.UpdateProfile(params) : this.manager.api.IUser.UpdateProfile(params))
 
 		this._setProp(res.response.user)
 
 		return res.response.user
 	}
+
+	toJSON() {
+    const object = { ...this }
+    delete object.manager
+    return object
+  }
 }
 
 module.exports = User

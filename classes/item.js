@@ -13,7 +13,7 @@ class Item {
   }
 
   async get() {
-    const res = await this.manager.api.IItem.GetItemsById({ item_id: [this.id] })
+    const res = await (this.manager.replaced_methods ? this.manager.IItem.GetItemsById({ item_id: [this.id] }) : this.manager.api.IItem.GetItemsById({ item_id: [this.id] }))
 
     if(res.response.items.length) {
       this._setProp(res.response.items[0])
@@ -22,6 +22,12 @@ class Item {
     }
 
     return this
+  }
+
+  toJSON() {
+    const object = { ...this }
+    delete object.manager
+    return object
   }
 }
 

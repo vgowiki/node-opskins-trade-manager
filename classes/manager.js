@@ -14,8 +14,8 @@ const IItem = require('./IItem.js')
 const IUser = require('./IUser.js')
 
 class Manager extends EventEmitter {
-  constructor({ apikey, secret = null, polling = true, poll_interval = 1000 }) {
-  	super()
+  constructor({ apikey, secret = null, polling = true, poll_interval = 1000, replace_methods = false }) {
+    super()
     this.api = new tradeinterface(apikey)
 
     if(secret) this.op2fa = new op2fa(secret)
@@ -27,9 +27,19 @@ class Manager extends EventEmitter {
 
     if(this.polling) this._poll()
 
-    this.ITrade = new ITrade(this)
-  	this.IUser = new IUser(this)
-    this.IItem = new IItem(this)
+    if(!replace_methods) {
+      this.ITrade = new ITrade(this)
+      this.IUser = new IUser(this)
+      this.IItem = new IItem(this)
+
+      this.replaced_methods = false
+    } else {
+      Object.assign(this, this.api)
+
+      delete this.api
+
+      this.replaced_methods = true
+    }
   }
 
   enablePolling() {
@@ -54,7 +64,7 @@ class Manager extends EventEmitter {
     if(!this.polling) return
 
     try {
-      const res = await this.api.ITrade.GetOffers()
+      const res = await (this.replaced_methods ? this.ITrade.GetOffers() : this.api.ITrade.GetOffers())
       const { offers } = res.response
 
       for(let i = 0; i < offers.length; i++) {
