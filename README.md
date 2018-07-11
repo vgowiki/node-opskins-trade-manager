@@ -5,6 +5,7 @@ NodeJS trade manager for trade.opskins.com API
 - [Installation](#install)
 - [Usage](#usage)
 - [Manager](#manager)
+- [All methods](#methods)
 
 
 # Install
@@ -48,5 +49,6 @@ API constructor can accept several parameters, some of which are required:
 - **polling_interval** (optional, 1000 ms by default) - how often the polling function is called
 - **replace_methods** (optional, false by default) - if true, replaces custom ITrade, IUser and IItem method collections of [Manager](#manager) class to low level implementations of [Trade opskins HTTP API](https://github.com/opskins/trade-opskins-api). Read more in [low level methods](#low-level-methods)
 
-## Method collections
-todo
+
+# Methods
+All Trade Opskins API methods can be accessed either through manager.api variable or directly through manager instance if you have passed **replace_methods** parameter to [Manager](#manager) constructor. Methods are provided through [opskins-trade-interface](https://github.com/feed4rz/node-opskins-trade-interface) module
