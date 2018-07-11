@@ -17,7 +17,7 @@ npm install opskins-trade-manager
 
 # Usage
 Requiring a module returns [API](#api) class:
-```JS
+```javascript
 const Manager = require('opskins-trade-manager')
 
 const manager = new Manager({
