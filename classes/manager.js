@@ -90,13 +90,11 @@ class Manager extends EventEmitter {
           this.offers[offers[i].id] = offers[i].state
         }
       }
-
-      this.poll_timeout = setTimeout(() => { this._poll() }, this.poll_interval)
     } catch(err) {
       console.error('Polling error:')
       console.error(err)
-
-      this.poll_timeout = setTimeout(() => { this._poll() }, this.poll_interval)
+    } finally {
+      this.poll_timeout = setTimeout(() => this._poll(), this.poll_interval)
     }
   }
 }
