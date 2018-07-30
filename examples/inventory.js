@@ -1,5 +1,5 @@
 const OpskinsManager = require('../index.js')
-const manager = new OpskinsManager(process.env.apikey, null, false)
+const manager = new OpskinsManager({ apikey: process.env.apikey, polling: false })
 
 async function getInventory() {
   try {

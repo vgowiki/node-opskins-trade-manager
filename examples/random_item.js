@@ -1,5 +1,5 @@
 const OpskinsManager = require('../index.js')
-const manager = new OpskinsManager(process.env.apikey, process.env.secret)
+const manager = new OpskinsManager({ apikey: process.env.apikey, secret: process.env.secret })
 
 manager.on('offer_new', offer => {
   console.log('new offer:', offer.id)
@@ -28,4 +28,4 @@ async function randomItem(tradeurl) {
   }
 }
 
-randomItem(process.env.tradeurl)
+//randomItem(process.env.tradeurl)
