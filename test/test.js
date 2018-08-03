@@ -37,11 +37,6 @@ describe('IUser', async() => {
 
     item = items[Math.floor(Math.random() * items.length)]
   })
-  it('JSON.stringify(item)', async() => {
-    const string = JSON.stringify(item)
-
-    expect(string).to.equal(`{"id":${item.id},"sku":${item.sku},"wear":${item.wear},"pattern_index":${item.pattern_index},"preview_urls":${JSON.stringify(item.preview_urls)},"eth_inspect":"${item.eth_inspect}","trade_hold_expires":${item.trade_hold_expires},"internal_app_id":${item.internal_app_id},"inspect":${item.inspect},"name":"${item.name}","category":"${item.category}","rarity":"${item.rarity}","type":"${item.type}","paint_index":${item.paint_index},"color":"${item.color}","image":${JSON.stringify(item.image)},"suggested_price":${item.suggested_price},"suggested_price_floor":${item.suggested_price_floor}}`)
-  })
   it('GetProfile', async() => {
     const profile = await manager1.IUser.GetProfile()
 
@@ -74,11 +69,6 @@ describe('ITrade', async() => {
   it('SendOffer', done => {
     sendOffer(done)
   }).timeout(5000)
-  it('JSON.stringify(offer)', async() => {
-    const string = JSON.stringify(remoffer)
-
-    expect(string).to.equal(`{"id":${remoffer.id},"sender":${JSON.stringify(remoffer.sender)},"recipient":${JSON.stringify(remoffer.recipient)},"state":2,"state_name":"Open","time_created":${remoffer.time_created},"time_updated":${remoffer.time_updated},"time_expires":${remoffer.time_expires},"message":"${message}","is_gift":true,"sent_by_you":false}`)
-  })
   it('Offer.cancel', done => {
     cancelOffer(done)
   }).timeout(5000)

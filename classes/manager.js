@@ -14,18 +14,16 @@ const IItem = require('./IItem.js')
 const IUser = require('./IUser.js')
 
 class Manager extends EventEmitter {
-  constructor({ apikey, secret = null, polling = true, poll_interval = 1000, replace_methods = false }) {
+  constructor({ apikey, secret = null, polling = true, poll_interval = 2000, replace_methods = false }) {
     super()
     this.api = new tradeinterface(apikey)
 
     if(secret) this.op2fa = new op2fa(secret)
 
-    this.poll_interval = poll_interval
+    this.poll_timer = setInterval(() => this._poll(), poll_interval)
     this.poll_timeout = 0
     this.polling = polling
     this.offers = {}
-
-    if(this.polling) this._poll()
 
     if(!replace_methods) {
       this.ITrade = new ITrade(this)
@@ -43,19 +41,13 @@ class Manager extends EventEmitter {
   }
 
   enablePolling() {
-    if(this.polling) return false
-
     this.polling = true
-    this._poll()
 
     return true
   }
 
   disablePolling() {
-    if(!this.polling) return false
-
     this.polling = false
-    clearTimeout(this.poll_timeout)
 
     return true
   }
@@ -70,6 +62,9 @@ class Manager extends EventEmitter {
       for(let i = 0; i < offers.length; i++) {
         if(!this.offers[offers[i].id]) {
           this.offers[offers[i].id] = offers[i].state
+          
+          const keys = Object.keys(this.offers)
+          if(keys.length == 101) delete this.offers[keys[0]]
 
           const offer = new Offer(this, offers[i])
 
@@ -93,8 +88,6 @@ class Manager extends EventEmitter {
     } catch(err) {
       console.error('Polling error:')
       console.error(err)
-    } finally {
-      this.poll_timeout = setTimeout(() => this._poll(), this.poll_interval)
     }
   }
 }
