@@ -51,4 +51,4 @@ API constructor can accept several parameters, some of which are required:
 
 
 # Methods
-All Trade Opskins API methods can be accessed either through manager.api variable or directly through manager instance if you have passed **replace_methods** parameter to [Manager](#manager) constructor. Methods are provided through [opskins-trade-interface](https://github.com/feed4rz/node-opskins-trade-interface) module
+All Trade Opskins API methods can be accessed either through manager.api variable or directly through manager instance if you have passed **replace_methods** parameter to [Manager](#manager) constructor. Methods are provided through [opskins-trade-interface](https://github.com/feed4rz/node-opskins-trade-interface) module 
