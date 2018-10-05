@@ -150,13 +150,13 @@ class ITrade {
     if(!params.uid) throw new Missing('uid')
     if(!params.token) throw new Missing('token')
     if(!params.items) throw new Missing('items')
-
-    let { uid, token, items, twofactor_code, message = '' } = params
+    
+    let { uid, token, items, twofactor_code, message = '', expiration_time = null } = params
 
     items = items instanceof Item ? items.id.toString() : (Array.isArray(items) ? this._convertItems(items) : items.toString())
     twofactor_code = twofactor_code ? twofactor_code : this.manager.op2fa.code()
 
-    params = { uid, token, twofactor_code, items, message }
+    params = { uid, token, twofactor_code, items, message, expiration_time }
 
     const res = await this.ITrade.SendOffer(params)
 
@@ -167,12 +167,12 @@ class ITrade {
     if(!params.steam_id) throw new Missing('steam_id')
     if(!params.items) throw new Missing('items')
 
-    let { steam_id, items, twofactor_code, message = '' } = params
+    let { steam_id, items, twofactor_code, message = '', expiration_time = null } = params
 
     items = items instanceof Item ? items.id.toString() : (Array.isArray(items) ? this._convertItems(items) : items.toString())
     twofactor_code = twofactor_code ? twofactor_code : this.manager.op2fa.code()
 
-    params = { steam_id, twofactor_code, items, message }
+    params = { steam_id, twofactor_code, items, message, expiration_time }
 
     const res = await this.ITrade.SendOfferToSteamId(params)
 
