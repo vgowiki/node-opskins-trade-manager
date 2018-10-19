@@ -149,14 +149,16 @@ class ITrade {
     }
     if(!params.uid) throw new Missing('uid')
     if(!params.token) throw new Missing('token')
-    if(!params.items) throw new Missing('items')
-    
-    let { uid, token, items, twofactor_code, message = '', expiration_time = null } = params
+    if(!params.items_to_send && !params.items_to_receive) throw new Missing('items_to_send and items_to_receive')
 
-    items = items instanceof Item ? items.id.toString() : (Array.isArray(items) ? this._convertItems(items) : items.toString())
+    let { uid, token, items_to_send = [], items_to_receive = [], twofactor_code, message = '', expiration_time = null } = params
+
+    items_to_send = items_to_send instanceof Item ? items_to_send.id.toString() : (Array.isArray(items_to_send) ? this._convertItems(items_to_send) : items_to_send.toString())
+    items_to_receive = items_to_receive instanceof Item ? items_to_receive.id.toString() : (Array.isArray(items_to_receive) ? this._convertItems(items_to_receive) : items_to_receive.toString())
+    
     twofactor_code = twofactor_code ? twofactor_code : this.manager.op2fa.code()
 
-    params = { uid, token, twofactor_code, items, message, expiration_time }
+    params = { uid, token, twofactor_code, items, message }
 
     const res = await this.ITrade.SendOffer(params)
 
@@ -165,14 +167,16 @@ class ITrade {
 
   async SendOfferToSteamId(params = {}) {
     if(!params.steam_id) throw new Missing('steam_id')
-    if(!params.items) throw new Missing('items')
+    if(!params.items_to_send && !params.items_to_receive) throw new Missing('items_to_send and items_to_receive')
 
-    let { steam_id, items, twofactor_code, message = '', expiration_time = null } = params
+    let { steam_id, items_to_send = [], items_to_receive = [], twofactor_code, message = '', expiration_time = null } = params
 
-    items = items instanceof Item ? items.id.toString() : (Array.isArray(items) ? this._convertItems(items) : items.toString())
+    items_to_send = items_to_send instanceof Item ? items_to_send.id.toString() : (Array.isArray(items_to_send) ? this._convertItems(items_to_send) : items_to_send.toString())
+    items_to_receive = items_to_receive instanceof Item ? items_to_receive.id.toString() : (Array.isArray(items_to_receive) ? this._convertItems(items_to_receive) : items_to_receive.toString())
+
     twofactor_code = twofactor_code ? twofactor_code : this.manager.op2fa.code()
 
-    params = { steam_id, twofactor_code, items, message, expiration_time }
+    params = { steam_id, twofactor_code, items_to_send, items_to_receive, message, expiration_time }
 
     const res = await this.ITrade.SendOfferToSteamId(params)
 
