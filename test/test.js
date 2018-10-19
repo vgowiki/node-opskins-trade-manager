@@ -75,11 +75,11 @@ describe('ITrade', async() => {
 })
 
 async function sendOffer(done) {
-  const items = item
+  const items_to_send = item
   const splitted = tradeurl.replace('https://trade.opskins.com/t/', '').replace('https://trade.opskins.com/trade/userid/', '').replace('token/', '').split('/')
   const uid = splitted[0]
   const token = splitted[1]
-  const offer = await manager1.ITrade.SendOffer({ uid, token, items, message })
+  const offer = await manager1.ITrade.SendOffer({ uid, token, items_to_send, message })
 
   manager1.once('offer_new', async(newoffer) => {
     expect(newoffer instanceof Offer).to.equal(true)
