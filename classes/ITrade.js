@@ -160,8 +160,6 @@ class ITrade {
 
     params = { uid, token, twofactor_code, items_to_send, items_to_receive, message }
 
-    console.log(params)
-
     const res = await this.ITrade.SendOffer(params)
 
     return new Offer(this.manager, res.response.offer)
