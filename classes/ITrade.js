@@ -151,14 +151,14 @@ class ITrade {
     if(!params.token) throw new Missing('token')
     if(!params.items_to_send && !params.items_to_receive) throw new Missing('items_to_send and items_to_receive')
 
-    let { uid, token, items_to_send, items_to_receive, twofactor_code, message = '', expiration_time = null } = params
+    let { uid, token, items_to_send, items_to_receive, twofactor_code, message = '', expiration_time } = params
 
     if(items_to_send) items_to_send = items_to_send instanceof Item ? items_to_send.id.toString() : (Array.isArray(items_to_send) ? this._convertItems(items_to_send) : items_to_send.toString())
     if(items_to_receive) items_to_receive = items_to_receive instanceof Item ? items_to_receive.id.toString() : (Array.isArray(items_to_receive) ? this._convertItems(items_to_receive) : items_to_receive.toString())
     
     twofactor_code = twofactor_code ? twofactor_code : this.manager.op2fa.code()
 
-    params = { uid, token, twofactor_code, items_to_send, items_to_receive, message }
+    params = { uid, token, twofactor_code, items_to_send, items_to_receive, message, expiration_time }
 
     const res = await this.ITrade.SendOffer(params)
 
@@ -169,7 +169,7 @@ class ITrade {
     if(!params.steam_id) throw new Missing('steam_id')
     if(!params.items_to_send && !params.items_to_receive) throw new Missing('items_to_send and items_to_receive')
 
-    let { steam_id, items_to_send, items_to_receive, twofactor_code, message = '', expiration_time = null } = params
+    let { steam_id, items_to_send, items_to_receive, twofactor_code, message = '', expiration_time } = params
 
     if(items_to_send) items_to_send = items_to_send instanceof Item ? items_to_send.id.toString() : (Array.isArray(items_to_send) ? this._convertItems(items_to_send) : items_to_send.toString())
     if(items_to_receive) items_to_receive = items_to_receive instanceof Item ? items_to_receive.id.toString() : (Array.isArray(items_to_receive) ? this._convertItems(items_to_receive) : items_to_receive.toString())

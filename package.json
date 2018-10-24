@@ -31,7 +31,7 @@
   "dependencies": {
     "events": "^3.0.0",
     "opskins-2fa": "^1.0.1",
-    "opskins-trade-interface": "^1.3.2"
+    "opskins-trade-interface": "^1.3.3"
   },
   "devDependencies": {
     "chai": "^4.2.0",
