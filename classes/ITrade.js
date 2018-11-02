@@ -138,6 +138,18 @@ class ITrade {
     return res.response
   }
 
+  async CancelOffer(params = {}) {
+    if (params === undefined) throw new Missing("params");
+    if (typeof params !== "object") params = {offer_id: params};
+    if (!params.offer_id) throw new Missing("id");
+
+    const { offer_id } = params;
+
+    const res = await this.ITrade.CancelOffer(params)
+
+    return res.response;
+  }
+  
   async SendOffer(params = {}) {
     if(params.tradeurl && !params.tradeurl.match(/^((https:\/\/trade\.opskins\.com\/t\/([0-9]{1,})\/([a-zA-Z0-9]{8}))|(https:\/\/trade\.opskins\.com\/trade\/userid\/([0-9]{1,})\/token\/([a-zA-Z0-9]{8})))$/)) {
       throw new Invalid('tradeurl')
